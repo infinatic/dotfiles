@@ -1,0 +1,67 @@
+# Don't use alternate screen buffer in xterm
+# Hmm. This setting causes apps run within screen (think: vim) to not use it
+# either. Is there a way to improve this?
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
+# Enable alternate screen for vim, less etc.
+altscreen on
+
+startup_message off
+shelltitle '$ |bash'
+
+# Enable 256 colours (see http://www.frexx.de/xterm-256-notes/)
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce "on"
+# EO section from frexx.de
+term screen-256color
+# Hardstatus: 
+
+# List active windows, higlight current.
+#hardstatus alwayslastline "%{= kw}%?%-Lw%?%{+r}%n*%f %t%{-}%?%+Lw%?"
+
+# List active windows, higlight current.  Date+Time right justified. 
+# v0: no fancy colours (white on black, current window reversed). 
+#hardstatus alwayslastline "%{= kw}%?%-Lw%?%{+r}%n*%f %t%{-}%?%+Lw%? %-21=%D %d.%m.%Y %0c"
+# v1: same as above, but highlight current window with green text. 
+hardstatus alwayslastline "%{= kw}[%H] %?%-Lw%?%{.g}%n*%f %t%{-}%?%+Lw%? %-21=%D %d.%m.%Y %0c"
+# v2: grey bar, white text, white highlight. 
+#     For some reason in the second color expression %{wk} doesn't work, use %{+r kw} instead.
+#     This looks pleasing, but it's just too fancy to work with. 
+#     (Note that K == Grey doesn't work with all terminals.)
+#hardstatus alwayslastline "%{=b Kw}%?%-Lw%?%{+r kw}%n*%f %t%{-}%?%+Lw%? %-21=%D %d.%m.%Y %0c"
+# v3: white bar, black text, grey highlight
+#     Also too fancy. 
+#hardstatus alwayslastline "%{=rb kw}%?%-Lw%?%{=b K.}%n*%f %t%{-}%?%+Lw%? %-21=%D %d.%m.%Y %0c"
+
+# Grml: 
+#hardstatus alwayslastline "%{wr}%n%f %t %{kw} | %?%-Lw%?%{wb}%n*%f %t%?(%u)%?%{kw}%?%+Lw%? %{wk}"
+
+# Debian: 
+# An alternative hardstatus to display a bar at the bottom listing the
+# windownames and highlighting the current windowname in blue. (This is only
+# enabled if there is no hardstatus setting for your terminal)
+#
+#hardstatus lastline "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
+
+hardcopydir     $HOME/.hardcopy
+msgwait         3                       # Display messages n seconds. (default: 5) 
+
+# Bell handling.
+#
+# I want to see the bell ring when I'm working with other windows.
+# To make the window manager (currently ion2) alert me, the bell need be
+# *audible* and the xterm needs to be configured to send urgent bells.
+# I don't know why, but even that way the bell is not audible but visual.
+# Which is of course a good thing, so I won't bother why.
+vbell           off
+vbell_msg       " *beep* "              # Override stupid default. (ignored?)
+
+# remove some stupid / dangerous key bindings 
+bind k        # kill 
+bind ^k       # kill
+bind .        # dumptermcap
+bind ^\       # quit
+# make them better
+bind K kill
+bind P paste
+
